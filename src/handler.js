@@ -83,7 +83,12 @@ const getAllbooksHandler = (request) => {
       thirdFilter = item.reading === (reading == 1);
     }
     return firstFilter && secondFilter && thirdFilter;
-  });
+  }).map((val) => ({
+    id: val.id,
+    name: val.name,
+    publisher: val.publisher,
+  }));
+
   return ({
     status: 'success',
     data: {
@@ -170,7 +175,7 @@ const editbookByIdHandler = (request, h) => {
 
   const response = h.response({
     status: 'fail',
-    message: 'Gagal memperbarui Buku. Id tidak ditemukan',
+    message: 'Gagal memperbarui buku. Id tidak ditemukan',
   });
   response.code(404);
   return response;

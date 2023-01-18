@@ -1,30 +1,42 @@
 var Connection = require('tedious').Connection;
 
-var config = {
-    server: `${process.env.DBHOST}`, // or "localhost"
-    options: {},
-    authentication: {
-        type: "default",
-        options: {
-            userName: process.env.DBUSERNAME,
-            password: process.env.DBPASSWORD,
-        }
-    }
-};
 
-var connection = new Connection(config);
+var connection;
+
+const initConnection = (env) => {
+    var config = {
+        server: `${env.DBHOST}`, // or "localhost"
+        options: {},
+        authentication: {
+            type: "default",
+            options: {
+                userName: env.DBUSERNAME,
+                password: env.DBPASSWORD,
+            }
+        }
+    };
+    connection = new Connection(config);
+    connection.on('connect', function (err) {
+        if (err) {
+            console.log('Error: ', err)
+        }
+        // If no error, then good to go...
+        // executeStatement();
+    });
+    connection.connect();
+}
 
 // Setup event handler when the connection is established. 
-connection.on('connect', function (err) {
-    if (err) {
-        console.log('Error: ', err)
-    }
-    // If no error, then good to go...
-    // executeStatement();
-});
+// connection.on('connect', function (err) {
+//     if (err) {
+//         console.log('Error: ', err)
+//     }
+// If no error, then good to go...
+// executeStatement();
+// });
 
 // Initialize the connection.
-connection.connect();
+// connection.connect();
 const getMpsPattern = () => {
     const query = `select * from mps_pattern_raw`;
     try {
@@ -61,4 +73,4 @@ const getMpsPattern = () => {
     }
 }
 
-module.exports = { getMpsPattern };
+module.exports = { getMpsPattern, initConnection };

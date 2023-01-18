@@ -6,7 +6,9 @@ var connection;
 const initConnection = (env) => {
     var config = {
         server: `${env.DBHOST}`, // or "localhost"
-        options: {},
+        options: {
+            trustServerCertificate: true,
+        },
         authentication: {
             type: "default",
             options: {

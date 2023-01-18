@@ -20,7 +20,7 @@ connection.on('connect', function (err) {
         console.log('Error: ', err)
     }
     // If no error, then good to go...
-    executeStatement();
+    // executeStatement();
 });
 
 // Initialize the connection.

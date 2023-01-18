@@ -1,8 +1,64 @@
-const sql = require('msnodesqlv8');
+var Connection = require('tedious').Connection;
 
-const connectionString = "server=.;Database=Master;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-const query = "SELECT name FROM sys.databases";
+var config = {
+    server: process.env.DBHOST, // or "localhost"
+    options: {},
+    authentication: {
+        type: "default",
+        options: {
+            userName: process.env.DBUSERNAME,
+            password: process.env.DBPASSWORD,
+        }
+    }
+};
 
-sql.query(connectionString, query, (err, rows) => {
-    console.log(rows);
+var connection = new Connection(config);
+
+// Setup event handler when the connection is established. 
+connection.on('connect', function (err) {
+    if (err) {
+        console.log('Error: ', err)
+    }
+    // If no error, then good to go...
+    executeStatement();
 });
+
+// Initialize the connection.
+connection.connect();
+const getMpsPattern = () => {
+    const query = `select * from mps_pattern_raw`;
+    try {
+        const request = new Request(query, (err, rowCount) => {
+            if (err) {
+                throw err;
+            }
+            console.log(`${rowCount} row(s) returned`);
+
+            console.log('DONE!');
+        });
+        request.on('row', (columns) => {
+            columns.forEach((column) => {
+                if (column.value === null) {
+                    console.log('NULL');
+                } else {
+                    console.log(column.value);
+                }
+            });
+        });
+
+        request.on('done', (rowCount) => {
+            console.log('Done is called!');
+        });
+
+        request.on('doneInProc', (rowCount, more) => {
+            console.log(rowCount + ' rows returned');
+        });
+
+        // In SQL Server 2000 you may need: connection.execSqlBatch(request);
+        connection.execSql(request);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = { getMpsPattern };

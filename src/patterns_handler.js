@@ -1,11 +1,13 @@
 const { getMpsPattern } = require('./pool');
 const mpsPatternHandler = (request, h) => {
-    getMpsPattern();
+    let results = [];
+    const callback = (columns) => {
+        results.push(columns);
+    }
+    getMpsPattern(callback);
     return h.response({
         status: 'success',
-        data: {
-            pattern: 'MPS',
-        }
+        data: results,
     },).code(200);
 }
 

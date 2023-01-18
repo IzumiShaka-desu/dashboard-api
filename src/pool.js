@@ -1,7 +1,7 @@
 var Connection = require('tedious').Connection;
 
 var config = {
-    server: process.env.DBHOST, // or "localhost"
+    server: `${process.env.DBHOST}`, // or "localhost"
     options: {},
     authentication: {
         type: "default",

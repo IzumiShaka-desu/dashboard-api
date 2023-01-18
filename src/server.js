@@ -11,7 +11,13 @@ const init = async () => {
         origin: ['*'],
       },
     },
-  });
+    options: {
+      cache: {
+        expiresIn: 60 * 1000,
+        privacy: 'private'
+      }
+    }
+  },);
 
   server.route(routes);
 

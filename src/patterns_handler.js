@@ -1,12 +1,6 @@
 const { getMpsPattern } = require('./pool');
-const mpsPatternHandler = (request, h) => {
-    let results = [];
-    const callback = (columns) => {
-        columns.forEach((column) => {
-            results.push(column);
-        });
-    }
-    getMpsPattern();
+const mpsPatternHandler = async (request, h) => {
+    let results = await getMpsPattern();
     return h.response({
         status: 'success',
         data: results,

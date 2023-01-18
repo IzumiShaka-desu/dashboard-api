@@ -2,32 +2,23 @@ const { deletebookByIdHandler } = require('./handler');
 const { editbookByIdHandler } = require('./handler');
 const { getbookByIdHandler } = require('./handler');
 const { addbookHandler, getAllbooksHandler } = require('./handler');
+const { mpsPatternHandler, wpsPatternHandler, woPatternHandler } = require('./patterns_handler');
 
 const routes = [
   {
-    method: 'POST',
-    path: '/books',
-    handler: addbookHandler,
+    method: 'GET',
+    path: '/patterns/mps',
+    handler: mpsPatternHandler,
   },
   {
     method: 'GET',
-    path: '/books',
-    handler: getAllbooksHandler,
+    path: '/patterns/wps',
+    handler: wpsPatternHandler,
   },
   {
     method: 'GET',
-    path: '/books/{id}',
-    handler: getbookByIdHandler,
-  },
-  {
-    method: 'PUT',
-    path: '/books/{id}',
-    handler: editbookByIdHandler,
-  },
-  {
-    method: 'DELETE',
-    path: '/books/{id}',
-    handler: deletebookByIdHandler,
+    path: '/patterns/wo',
+    handler: woPatternHandler,
   },
 ];
 

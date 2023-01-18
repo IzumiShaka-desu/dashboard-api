@@ -1,4 +1,6 @@
+const { getMpsPattern } = require('./pool');
 const mpsPatternHandler = (request, h) => {
+    getMpsPattern();
     return h.response({
         status: 'success',
         data: {

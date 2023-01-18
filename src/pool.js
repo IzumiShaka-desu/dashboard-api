@@ -10,11 +10,13 @@ const initConnection = (env) => {
         options: {
             trustServerCertificate: true,
         },
+        database: `${env.DBNAME}`,
         authentication: {
             type: "default",
             options: {
                 userName: env.DBUSERNAME,
                 password: env.DBPASSWORD,
+
             }
         }
     };

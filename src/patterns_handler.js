@@ -11,10 +11,17 @@ const mpsPatternHandler = (request, h) => {
 
 const wpsPatternHandler = (request, h) => {
 
-
+    return h.response({
+        status: 'error',
+        message: 'WPS Pattern is not implemented yet',
+    }).code(500);
 
 }
 const woPatternHandler = (request, h) => {
+    return h.response({
+        status: 'error',
+        message: 'WO Pattern is not implemented yet',
+    }).code(500);
 }
 module.exports = {
     mpsPatternHandler,

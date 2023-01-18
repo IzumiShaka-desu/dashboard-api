@@ -2,7 +2,9 @@ const { getMpsPattern } = require('./pool');
 const mpsPatternHandler = (request, h) => {
     let results = [];
     const callback = (columns) => {
-        results.push(columns);
+        columns.forEach((column) => {
+            results.push(column);
+        });
     }
     getMpsPattern(callback);
     return h.response({

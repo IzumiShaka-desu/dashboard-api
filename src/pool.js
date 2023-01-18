@@ -1,4 +1,5 @@
-var Connection = require('tedious').Connection;
+const Connection = require('tedious').Connection;
+const Request = require('tedious').Request;
 
 
 var connection;

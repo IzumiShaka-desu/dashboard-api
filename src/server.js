@@ -1,6 +1,9 @@
 const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
 require('dotenv').config();
+const { initConnection } = require('./pool');
+
+initConnection(process.env);
 
 const init = async () => {
   const server = Hapi.server({

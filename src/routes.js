@@ -9,16 +9,34 @@ const routes = [
     method: 'GET',
     path: '/patterns/mps',
     handler: mpsPatternHandler,
+    options: {
+      cache: {
+        expiresIn: (60 * 60) * 1000,
+        privacy: 'private'
+      }
+    }
   },
   {
     method: 'GET',
     path: '/patterns/wps',
     handler: wpsPatternHandler,
+    options: {
+      cache: {
+        expiresIn: (60 * 60) * 1000,
+        privacy: 'private'
+      }
+    }
   },
   {
     method: 'GET',
     path: '/patterns/wo',
     handler: woPatternHandler,
+    options: {
+      cache: {
+        expiresIn: (60 * 60) * 1000,
+        privacy: 'private'
+      }
+    }
   },
 ];
 

@@ -1,94 +1,34 @@
-const Connection = require('tedious').Connection;
-const Request = require('tedious').Request;
-
-
-var connection;
-
-const initConnection = (env) => {
-    var config = {
-        server: `${env.DBHOST}`, // or "localhost"
-        options: {
-            trustServerCertificate: true,
-        },
-        database: `${env.DBNAME}`,
-        authentication: {
-            type: "default",
-            options: {
-                userName: env.DBUSERNAME,
-                password: env.DBPASSWORD,
-
-            }
-        }
-    };
-    connection = new Connection(config);
-    connection.on('connect', function (err) {
-        if (err) {
-            console.log('Error: ', err)
-        }
-        // If no error, then good to go...
-        // executeStatement();
-    });
-    connection.connect();
+const { getMpsPattern } = require('./pool');
+const mpsPatternHandler = (request, h) => {
+    let results = [];
+    const callback = (columns) => {
+        columns.forEach((column) => {
+            results.push(column);
+        });
+    }
+    getMpsPattern();
+    return h.response({
+        status: 'success',
+        data: results,
+    },).code(200);
 }
 
-// Setup event handler when the connection is established. 
-// connection.on('connect', function (err) {
-//     if (err) {
-//         console.log('Error: ', err)
-//     }
-// If no error, then good to go...
-// executeStatement();
-// });
+const wpsPatternHandler = (request, h) => {
 
-// Initialize the connection.
-// connection.connect();
-const executeSQL = (connection, strgSql, strgOpt) =>
-    new Promise((resolve, reject) => {
-        var result = [];
-        const request = new Request(strgSql, (err, rowCount) => {
-            if (err) {
-                reject(err);
-            } else {
-                //console.log("rowCount:",rowCount);
-                if ((result == "" || result == null || result == "null")) result = "[]";
-                //console.log("result:",result);
-                resolve(result);
-            }
-            // connection.close();    
-        });
-        request.on('row', columns => {
-            if (strgOpt == "array") {
-                var arry = []
-                columns.forEach(column => {
-                    arry.push(column.value);
-                });
-                result.push(arry);
-                //console.log(result);  
-            }
-            if (strgOpt == "object") {
-                var objt = {}
-                columns.forEach(column => {
-                    objt[column.metadata.colName] = column.value;
-                });
-                result.push(objt);
-                //console.log(result);  
-            }
-        });
-        // connection.on('connect', err => {
-        //     if (err) {
-        //         reject(err);
-        //     }
-        //     else {
-        connection.execSql(request);
-        //     }
-        // });   
-        // connection.connect();    
-    });
-const getMpsPattern = async () => {
-    const query = `select * from [portal_ppc].[dbo].[mps_pattern_raw]`;
-    let result = await executeSQL(connection, query, "object");
-    console.log(result);
-    return result;
+    return h.response({
+        status: 'error',
+        message: 'WPS Pattern is not implemented yet',
+    }).code(500);
+
 }
-
-module.exports = { getMpsPattern, initConnection };
+const woPatternHandler = (request, h) => {
+    return h.response({
+        status: 'error',
+        message: 'WO Pattern is not implemented yet',
+    }).code(500);
+}
+module.exports = {
+    mpsPatternHandler,
+    wpsPatternHandler,
+    woPatternHandler,
+}

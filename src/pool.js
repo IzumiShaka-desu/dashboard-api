@@ -42,42 +42,53 @@ const initConnection = (env) => {
 
 // Initialize the connection.
 // connection.connect();
-const getMpsPattern = (callback) => {
-    // const query = `select mps.*,part_number.*,part_number_series.* from mps right join part_number on mps.id_part_number =part_number.id_part_number right join part_number_series on part_number.part_number = part_number_series.pn where MONTH(mps.tanggal_mps) = MONTH(GETDATE()) AND YEAR(mps.tanggal_mps) = YEAR(GETDATE()) order by tanggal_mps`;
-    const query = `select * from [portal_ppc].[dbo].[mps_pattern_raw]`;
-    try {
-        const request = new Request(query, (err, rowCount) => {
+const executeSQL = (connection, strgSql, strgOpt) =>
+    new Promise((resolve, reject) => {
+        var result = [];
+        const request = new Request(strgSql, (err, rowCount) => {
             if (err) {
-                throw err;
+                reject(err);
+            } else {
+                //console.log("rowCount:",rowCount);
+                if ((result == "" || result == null || result == "null")) result = "[]";
+                //console.log("result:",result);
+                resolve(result);
             }
-            console.log(`${rowCount} row(s) returned`);
-
-            console.log('DONE!');
+            // connection.close();    
         });
-        request.on('row', (columns) => {
-            // columns.forEach((column) => {
-            //     if (column.value === null) {
-            //         console.log('NULL');
-            //     } else {
-            //         console.log(column.value);
-            //     }
-            // });
-            callback(columns);
+        request.on('row', columns => {
+            if (strgOpt == "array") {
+                var arry = []
+                columns.forEach(column => {
+                    arry.push(column.value);
+                });
+                result.push(arry);
+                //console.log(result);  
+            }
+            if (strgOpt == "object") {
+                var objt = {}
+                columns.forEach(column => {
+                    objt[column.metadata.colName] = column.value;
+                });
+                result.push(objt);
+                //console.log(result);  
+            }
         });
-
-        request.on('done', (rowCount) => {
-            console.log('Done is called!');
-        });
-
-        request.on('doneInProc', (rowCount, more) => {
-            console.log(rowCount + ' rows returned');
-        });
-
-        // In SQL Server 2000 you may need: connection.execSqlBatch(request);
+        // connection.on('connect', err => {
+        //     if (err) {
+        //         reject(err);
+        //     }
+        //     else {
         connection.execSql(request);
-    } catch (error) {
-        console.log(error);
-    }
+        //     }
+        // });   
+        // connection.connect();    
+    });
+const getMpsPattern = async () => {
+    const query = `select * from [portal_ppc].[dbo].[mps_pattern_raw]`;
+    let result = await executeSQL(connection, query, "object");
+    console.log(result);
+    return result;
 }
 
 module.exports = { getMpsPattern, initConnection };

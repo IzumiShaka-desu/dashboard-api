@@ -41,7 +41,8 @@ const initConnection = (env) => {
 // Initialize the connection.
 // connection.connect();
 const getMpsPattern = () => {
-    const query = `select * from mps_pattern_raw`;
+    [mps_pattern_raw]
+    const query = `select mps.*,part_number.*,part_number_series.* from mps right join part_number on mps.id_part_number =part_number.id_part_number right join part_number_series on part_number.part_number = part_number_series.pn where MONTH(mps.tanggal_mps) = MONTH(GETDATE()) AND YEAR(mps.tanggal_mps) = YEAR(GETDATE()) order by tanggal_mps`;
     try {
         const request = new Request(query, (err, rowCount) => {
             if (err) {

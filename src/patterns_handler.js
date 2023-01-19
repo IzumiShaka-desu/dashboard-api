@@ -10,17 +10,17 @@ const mpsPatternHandler = async (request, h) => {
     },);
     let lines = [...new Set(results.map((item) => item.line))];
     let date = new Date()
-    let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    // let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     // create array of Date(object) from first day of this month to last day of this month
-    let dateOfThisMonth = Array.from(new Array(lastDay.getDate()), (val, index) => new Date(date.getFullYear(), date.getMonth(), index + 1, 0));
+    // let dateOfThisMonth = Array.from(new Array(lastDay.getDate()), (val, index) => new Date(date.getFullYear(), date.getMonth(), index + 1, 0));
 
     let result = lines.map((line) => {
         let data = results.filter((item) => item.line == line);
         //this using type on this line because to make sure every type ini this line is included
         // you can also change this scope to type on this date 
         let typeOnThisLine = [...new Set(data.map((item) => item.type))];
-        // let tanggal_mps = [...new Set(data.map((item) => item.tanggal_mps))];
-        let dataByDateGroupByType = dateOfThisMonth.map((date) => {
+        let tanggal_mps = [...new Set(data.map((item) => item.tanggal_mps))];
+        let dataByDateGroupByType = tanggal_mps.map((date) => {
             let dataByDate = data.filter((item) => item.tanggal_mps == date);
             // let typeOnThisDate = [...new Set(dataByDate.map((item) => item.type))];
             let dataByDateGroupByType = typeOnThisLine.map((type) => {

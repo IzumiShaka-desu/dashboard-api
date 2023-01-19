@@ -57,6 +57,7 @@ const mpsPatternHandler = async (request, h) => {
         return {
             line: line,
             data: dataByDateGroupByType,
+            title: "MPS Pattern ",//mps pa
             summary: summaryByType,
         }
     });
@@ -64,7 +65,11 @@ const mpsPatternHandler = async (request, h) => {
 
     return h.response({
         status: 'success',
-        data: result,
+        data: {
+            //MPS Pattern <current month string><current year>
+            title: `MPS Pattern ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`,
+            items: result,
+        },
     },).code(200);
 }
 

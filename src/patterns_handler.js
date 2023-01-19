@@ -3,7 +3,14 @@ const mpsPatternHandler = async (request, h) => {
     let results = await getMpsPattern();
     return h.response({
         status: 'success',
-        data: results,
+        data: results.map((item) => {
+            return {
+                tanggal_mps: item.tanggal_mps,
+                line: item.line_mps,
+                qty: item.qty_mps,
+                type: item.type,
+            }
+        },),
     },).code(200);
 }
 

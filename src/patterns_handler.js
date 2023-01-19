@@ -73,7 +73,7 @@ const mpsPatternHandler = async (request, h) => {
     },).code(200);
 }
 
-const wpsRawHandler = async (request, h) => {
+const mpsRawHandler = async (request, h) => {
     let results = (await getWpsRaw()).map((item) => {
         return {
             tanggal_mps: item.tanggal_mps,
@@ -106,5 +106,5 @@ module.exports = {
     mpsPatternHandler,
     wpsPatternHandler,
     woPatternHandler,
-    wpsRawHandler,
+    mpsRawHandler,
 }

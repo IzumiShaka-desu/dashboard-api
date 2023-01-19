@@ -74,7 +74,7 @@ const mpsPatternHandler = async (request, h) => {
 }
 
 const mpsRawHandler = async (request, h) => {
-    let results = (await getWpsRaw()).map((item) => {
+    let results = (await getMpsPattern()).map((item) => {
         return {
             tanggal_mps: item.tanggal_mps,
             line: item.line_mps,

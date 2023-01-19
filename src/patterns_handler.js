@@ -12,7 +12,7 @@ const mpsPatternHandler = async (request, h) => {
     let date = new Date()
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     // create array of Date(object) from first day of this month to last day of this month
-    let dateOfThisMonth = Array.from(new Array(lastDay.getDate()), (val, index) => new Date(date.getFullYear(), date.getMonth(), index + 1));
+    let dateOfThisMonth = Array.from(new Array(lastDay.getDate()), (val, index) => new Date(date.getFullYear(), date.getMonth(), index + 1, 0));
 
     let result = lines.map((line) => {
         let data = results.filter((item) => item.line == line);

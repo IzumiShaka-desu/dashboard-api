@@ -73,6 +73,21 @@ const mpsPatternHandler = async (request, h) => {
     },).code(200);
 }
 
+const wpsRawHandler = async (request, h) => {
+    let results = (await getWpsRaw()).map((item) => {
+        return {
+            tanggal_mps: item.tanggal_mps,
+            line: item.line_mps,
+            qty: item.qty_mps,
+            type: item.type,
+        }
+    },);
+    return h.response({
+        status: 'success',
+        data: results,
+    },).code(200);
+}
+
 const wpsPatternHandler = (request, h) => {
 
     return h.response({
@@ -91,4 +106,5 @@ module.exports = {
     mpsPatternHandler,
     wpsPatternHandler,
     woPatternHandler,
+    wpsRawHandler,
 }

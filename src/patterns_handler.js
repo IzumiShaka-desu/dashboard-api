@@ -26,7 +26,7 @@ const mpsPatternHandler = async (request, h) => {
                 type: type,
                 total: dataByType.reduce((acc, cur) => acc + cur.qty, 0),
                 data: dateOnThisType.map((date) => {
-                    let dataByDate = dataByType.filter((item) => item.tanggal_mps == date);
+                    let dataByDate = dataByType.filter((item) => item.tanggal_mps === date);
                     return {
                         date: date,
                         total: dataByDate.reduce((acc, cur) => acc + cur.qty, 0),

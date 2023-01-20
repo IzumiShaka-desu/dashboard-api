@@ -8,7 +8,7 @@ const mpsPatternHandler = async (request, h) => {
             type: item.type,
         }
     },);
-    let lines = [...new Set(results.map((item) => item.line))];
+    let lines = [...new Set(results.map((item) => item.line))].sort();
     let date = new Date()
     // let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     // create array of Date(object) from first day of this month to last day of this month

@@ -87,7 +87,7 @@ const executeSQL = (connection, strgSql, strgOpt) =>
 const getMpsPattern = async () => {
     const query = `select * from [portal_ppc].[dbo].[mps_pattern_raw]`;
     let result = await executeSQL(connection, query, "object");
-    console.log(result);
+    // console.log(result);
     return result;
 }
 

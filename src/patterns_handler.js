@@ -19,7 +19,8 @@ const mpsPatternHandler = async (request, h) => {
         //this using type on this line because to make sure every type ini this line is included
         // you can also change this scope to type on this date 
         let typeOnThisLine = [...new Set(data.map((item) => item.type))];
-        let tanggal_mps = [...new Set(data.map((item) => item.tanggal_mps))];
+        // create set of date from this line data and sort it ascending
+        let tanggal_mps = [...new Set(data.map((item) => item.tanggal_mps))].sort((a, b) => a - b);
         let dataByDateGroupByType = tanggal_mps.map((date) => {
             let dataByDate = data.filter((item) => item.tanggal_mps == date);
             // let typeOnThisDate = [...new Set(dataByDate.map((item) => item.type))];

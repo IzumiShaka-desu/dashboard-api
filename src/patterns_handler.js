@@ -5,7 +5,7 @@ const mpsPatternHandler = async (request, h) => {
             tanggal_mps: item.tanggal_mps,
             line: item.line_mps,
             qty: item.qty_mps,
-            type: item.type,
+            type: item.series,
         }
     },);
     let lines = [...new Set(results.map((item) => item.line))].sort();

@@ -18,48 +18,29 @@ const mpsPatternHandler = async (request, h) => {
         let data = results.filter((item) => item.line == line);
         //this using type on this line because to make sure every type ini this line is included
         // you can also change this scope to type on this date 
-        // let typeOnThisLine = [...new Set(data.map((item) => item.type))];
-        // create set of date from this line data and sort it ascending
-        let tanggal_mps = [...new Set(data.map((item) => item.tanggal_mps))].sort((a, b) => a - b);
-        let dataByDateGroupByType = tanggal_mps.map((date) => {
-            let dataByDate = data.filter((item) => item.tanggal_mps == date);
-            let typeOnThisDate = [...new Set(dataByDate.map((item) => item.type))];
-            let dataByDateGroupByType = typeOnThisDate.map((type) => {
-                let dataByType = dataByDate.filter((item) => item.type == type);
-                let qty = dataByType.reduce((acc, curr) => {
-                    return acc + curr.qty;
-                }, 0);
-                return {
-                    type: type,
-                    qty: qty < 1 ? "-" : `${qty}`,
-                }
-
-            }
-            );
-            //
-
-            return {
-                tanggal_mps: date,
-                data: dataByDateGroupByType,
-            }
-        });
-
-        let summaryByType = typeOnThisLine.map((type) => {
+        let typeOnThisLine = [...new Set(data.map((item) => item.type))];
+        let dataByType = typeOnThisLine.map((type) => {
             let dataByType = data.filter((item) => item.type == type);
-            let qty = dataByType.reduce((acc, curr) => {
-                return acc + curr.qty;
-            }, 0);
+            let dateOnThisType = [...new Set(dataByType.map((item) => item.tanggal_mps))].sort();
             return {
                 type: type,
-                qty: qty < 1 ? "-" : `${qty}`,
-            }
+                total: dataByType.reduce((acc, cur) => acc + cur.qty, 0),
+                data: dateOnThisType.map((date) => {
+                    let dataByDate = dataByType.filter((item) => item.tanggal_mps == date);
+                    return {
+                        date: date,
+                        total: dataByDate.reduce((acc, cur) => acc + cur.qty, 0),
+                        data: dataByDate,
+                    }
+                }),
+            };
         });
+
 
         return {
             line: line,
-            data: dataByDateGroupByType,
-            title: "MPS Pattern ",//mps pa
-            summary: summaryByType,
+            data: dataByType,
+            title: "MPS Pattern ",
         }
     });
 

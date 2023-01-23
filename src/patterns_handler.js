@@ -130,7 +130,7 @@ const wpsPatternHandler = async (request, h) => {
         status: 'success',
         data: {
             //MPS Pattern <current month string><current year>
-            title: `MPS Pattern ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`,
+            title: `WPS Pattern ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`,
             items: result,
         },
     },).code(200);

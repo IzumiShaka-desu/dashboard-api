@@ -40,7 +40,7 @@ const initConnection = (env) => {
 
         try {
 
-            connection = await oracledb.getConnection({ user: env.DBBAANUSERNAME, password: env.DBBAANPASS, connectionString: "localhost/baan" });
+            connection = await oracledb.getConnection({ user: env.DBBAANUSERNAME, password: env.DBBAANPASSWORD, connectionString: "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.19.16.7)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME = BAANS.INCOE.ASTRA.CO.ID)))" });
 
             console.log("Successfully connected to Oracle Database");
 
@@ -51,20 +51,21 @@ const initConnection = (env) => {
             // Now query the rows back
 
             result = await connection.execute(
-                `select distinct(trim(t$item)) from baan.twhwmd215777 where t$stoc > 0 and t$cwar = 'K-MTX';`,
+                `select distinct(trim(t$item)) from baan.twhwmd215777 where t$stoc > 0 and t$cwar = 'K-MTX'`,
                 [],
-                { resultSet: true, outFormat: oracledb.OUT_FORMAT_OBJECT });
+                { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
 
             const rs = result.resultSet;
             let row;
-
-            while ((row = await rs.getRow())) {
-                console.log(result.rows);
-                if (row.DONE)
-                    console.log(row.DESCRIPTION, "is done");
-                else
-                    console.log(row.DESCRIPTION, "is NOT done");
-            }
+            // row = await rs.getRow();
+            console.log(result.rows);
+            // while ((row = await rs.getRow())) {
+            //     console.log(result.rows);
+            //     if (row.DONE)
+            //         console.log(row.DESCRIPTION, "is done");
+            //     else
+            //         console.log(row.DESCRIPTION, "is NOT done");
+            // }
 
             // await rs.close();
 

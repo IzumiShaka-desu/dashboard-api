@@ -20,6 +20,7 @@
     "@hapi/hapi": "^20.1.0",
     "dotenv": "^16.0.3",
     "nanoid": "^3.1.20",
+    "node-oracledb": "^1.0.2",
     "tedious": "^15.1.2"
   }
 }

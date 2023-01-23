@@ -154,6 +154,8 @@ const getWpsPattern = async () => {
     return result;
 }
 const getWOPattern = async () => {
+    let queryPn = `select * from [portal_ppc].[dbo].[part_number_series] `;
+    let part_num_series = await executeSQL(connection, queryPn, "object");
     const query = `SELECT t$prto as rfq,t$prdt as tgl_prod,t$pdno as pdno,trim(t$mitm) as mitm,t$cwar as cwar, t$qrdr as qty,t$prcd as line, t$osta as status 
     FROM baan.ttisfc001777 where (t$pdno like '%KAS%' OR t$pdno like '%KAB%')
     and (t$osta = 1 OR t$osta = 5 OR t$osta = 7) and t$prdt between to_date('01-JAN-23','DD-MON-RR') - 7/24 and to_date('31-JAN-23','DD-MON-RR') - 7/24
@@ -165,17 +167,19 @@ const getWOPattern = async () => {
 
     let results = [];
     result.rows.map(async (row) => {
-        let query = `select * from [portal_ppc].[dbo].[part_number_series] where pn = '${row.MITM}' `;
-        let result = await executeSQL(connection, query, "object");
+
         obj = {
             tanggal_wo: row.TGL_PROD,
             qty: row.QTY,
             line: row.LINE,
         };
-        if (result.length > 0) {
-            obj.series = result[0].series;
-        } else {
-            obj.series = "";
+        let part_num = row.MITM;
+        let series = part_num_series.find(x => x.pn == part_num);
+        if (series) {
+            obj.series = series.series;
+        }
+        else {
+            obj.series = "N/A";
         }
         //  obj;
         results.push(obj);

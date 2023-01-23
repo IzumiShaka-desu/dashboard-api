@@ -50,15 +50,15 @@ const initConnection = (env) => {
 
             // Now query the rows back
 
-            result = await connection.execute(
-                `select distinct(trim(t$item)) from baan.twhwmd215777 where t$stoc > 0 and t$cwar = 'K-MTX'`,
-                [],
-                { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
+            // result = await connection.execute(
+            //     `select distinct(trim(t$item)) from baan.twhwmd215777 where t$stoc > 0 and t$cwar = 'K-MTX'`,
+            //     [],
+            //     { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
 
-            const rs = result.resultSet;
-            let row;
+            // const rs = result.resultSet;
+            // let row;
             // row = await rs.getRow();
-            console.log(result.rows);
+            // console.log(result.rows);
             // while ((row = await rs.getRow())) {
             //     console.log(result.rows);
             //     if (row.DONE)

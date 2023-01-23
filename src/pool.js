@@ -80,9 +80,9 @@ const initConnection = (env) => {
             // }
         }
     }
-    getWOPattern();
 
     run();
+    getWOPattern();
 }
 
 

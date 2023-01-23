@@ -1,8 +1,11 @@
 const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
+const oracledb = require('oracledb');
+
 
 
 var connection;
+var oracleConnection;
 
 const initConnection = (env) => {
     var config = {
@@ -29,7 +32,59 @@ const initConnection = (env) => {
         // executeStatement();
     });
     connection.connect();
+
+
+    async function run() {
+
+        let connection;
+
+        try {
+
+            connection = await oracledb.getConnection({ user: env.DBBAANUSERNAME, password: env.DBBAANPASS, connectionString: "localhost/baan" });
+
+            console.log("Successfully connected to Oracle Database");
+
+
+
+            connection.commit();
+
+            // Now query the rows back
+
+            result = await connection.execute(
+                `select distinct(trim(t$item)) from baan.twhwmd215777 where t$stoc > 0 and t$cwar = 'K-MTX';`,
+                [],
+                { resultSet: true, outFormat: oracledb.OUT_FORMAT_OBJECT });
+
+            const rs = result.resultSet;
+            let row;
+
+            while ((row = await rs.getRow())) {
+                console.log(result.rows);
+                if (row.DONE)
+                    console.log(row.DESCRIPTION, "is done");
+                else
+                    console.log(row.DESCRIPTION, "is NOT done");
+            }
+
+            // await rs.close();
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            // if (connection) {
+            //     try {
+            //         await connection.close();
+            //     } catch (err) {
+            //         console.error(err);
+            //     }
+            // }
+        }
+    }
+
+    run();
 }
+
+
 
 // Setup event handler when the connection is established. 
 // connection.on('connect', function (err) {

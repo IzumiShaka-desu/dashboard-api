@@ -35,16 +35,16 @@ const initConnection = (env) => {
 
 
     async function run() {
-
+        let connection;
         try {
 
-            oracleConnection = await oracledb.getConnection({ user: env.DBBAANUSERNAME, password: env.DBBAANPASSWORD, connectionString: "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.19.16.7)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME = BAANS.INCOE.ASTRA.CO.ID)))" });
+            connection = await oracledb.getConnection({ user: env.DBBAANUSERNAME, password: env.DBBAANPASSWORD, connectionString: "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.19.16.7)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME = BAANS.INCOE.ASTRA.CO.ID)))" });
 
             console.log("Successfully connected to Oracle Database");
 
 
 
-            oracleConnection.commit();
+            connection.commit();
 
             // Now query the rows back
 
@@ -70,6 +70,7 @@ const initConnection = (env) => {
         } catch (err) {
             console.error(err);
         } finally {
+            oracleConnection = connection;
             // if (connection) {
             //     try {
             //         await connection.close();

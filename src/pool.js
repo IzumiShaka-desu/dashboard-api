@@ -162,7 +162,7 @@ const getWOPattern = async () => {
     result = await oracleConnection.execute(query, [], { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
     // console.log(result.rows);
     let results = result.rows.map(async (row) => {
-        let query = `select * from [portal_ppc].[dbo].[part_number_series] where pn = '${row, MITM}' `;
+        let query = `select * from [portal_ppc].[dbo].[part_number_series] where pn = '${row.MITM}' `;
         let result = await executeSQL(connection, query, "object");
         let obj = {
             tanggal_wo: row.TGL_PROD,

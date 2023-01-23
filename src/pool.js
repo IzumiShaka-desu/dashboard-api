@@ -160,8 +160,24 @@ const getWOPattern = async () => {
     order by t$pdno asc`;
     var result;
     result = await oracleConnection.execute(query, [], { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
-    console.log(result.rows);
-    return result.rows;
+    // console.log(result.rows);
+    let results = result.rows.map(async (row) => {
+        let query = `select * from [portal_ppc].[dbo].[part_number_series] where pn = '${row, MITM}' `;
+        let result = await executeSQL(connection, query, "object");
+        let obj = {
+            tanggal_wo: row.TGL_PROD,
+            qty: row.QTY,
+            line: row.LINE,
+        };
+        if (result.length > 0) {
+            obj.series = result[0].series;
+        } else {
+            obj.series = "";
+        }
+        return obj;
+    });
+    console.log(results);
+    return results;
 }
 
 module.exports = { getMpsPattern, getWpsPattern, initConnection };

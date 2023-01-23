@@ -159,7 +159,7 @@ const getWOPattern = async () => {
     and (t$osta = 1 OR t$osta = 5 OR t$osta = 7) and t$prdt between to_date('01-JAN-23','DD-MON-RR') - 7/24 and to_date('31-JAN-23','DD-MON-RR') - 7/24
     order by t$pdno asc`;
     var result;
-    result = await connection.execute(query);
+    result = await oracleConnection.execute(query);
     console.log(result.rows);
     return result.rows;
 }

@@ -71,6 +71,8 @@ const initConnection = (env) => {
             console.error(err);
         } finally {
             oracleConnection = connection;
+            getWOPattern();
+
             // if (connection) {
             //     try {
             //         await connection.close();
@@ -82,7 +84,6 @@ const initConnection = (env) => {
     }
 
     run();
-    getWOPattern();
 }
 
 
@@ -158,7 +159,7 @@ const getWOPattern = async () => {
     and (t$osta = 1 OR t$osta = 5 OR t$osta = 7) and t$prdt between to_date('01-JAN-23','DD-MON-RR') - 7/24 and to_date('31-JAN-23','DD-MON-RR') - 7/24
     order by t$pdno asc`;
     var result;
-    result = await oracleConnection.execute(query);
+    result = await oracleConnection.execute(query, [], { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
     console.log(result.rows);
     return result.rows;
 }

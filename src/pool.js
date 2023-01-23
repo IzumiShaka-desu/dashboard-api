@@ -81,6 +81,7 @@ const initConnection = (env) => {
             // }
         }
     }
+    getWOPattern();
 
     run();
 }
@@ -151,6 +152,16 @@ const getWpsPattern = async () => {
     let result = await executeSQL(connection, query, "object");
     // console.log(result);
     return result;
+}
+const getWOPattern = async () => {
+    const query = `SELECT t$prto as rfq,t$prdt as tgl_prod,t$pdno as pdno,trim(t$mitm) as mitm,t$cwar as cwar, t$qrdr as qty,t$prcd as line, t$osta as status 
+    FROM baan.ttisfc001777 where (t$pdno like '%KAS%' OR t$pdno like '%KAB%')
+    and (t$osta = 1 OR t$osta = 5 OR t$osta = 7) and t$prdt between to_date('01-JAN-23','DD-MON-RR') - 7/24 and to_date('31-JAN-23','DD-MON-RR') - 7/24
+    order by t$pdno asc`;
+    var result;
+    result = await connection.execute(query);
+    console.log(result.rows);
+    return result.rows;
 }
 
 module.exports = { getMpsPattern, getWpsPattern, initConnection };

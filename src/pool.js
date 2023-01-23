@@ -71,7 +71,7 @@ const initConnection = (env) => {
             console.error(err);
         } finally {
             oracleConnection = connection;
-            getWOPattern();
+            // getWOPattern();
 
             // if (connection) {
             //     try {

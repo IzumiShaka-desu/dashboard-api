@@ -91,7 +91,7 @@ const getMpsPattern = async () => {
     return result;
 }
 const getWpsPattern = async () => {
-    const query = `select [portal_ppc].[dbo].[mps_pattern_raw].*,[portal_ppc].[dbo].[mps_pattern_raw].* from [portal_ppc].[dbo].[wps] join [portal_ppc].[dbo].[mps_pattern_raw] on [portal_ppc].[dbo].[wps].id_mps = [portal_ppc].[dbo].[mps_pattern_raw].id_mps`;
+    const query = `select [portal_ppc].[dbo].[mps_pattern_raw].*,[portal_ppc].[dbo].[wps].* from [portal_ppc].[dbo].[wps] join [portal_ppc].[dbo].[mps_pattern_raw] on [portal_ppc].[dbo].[wps].id_mps = [portal_ppc].[dbo].[mps_pattern_raw].id_mps`;
     let result = await executeSQL(connection, query, "object");
     // console.log(result);
     return result;

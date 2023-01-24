@@ -1,4 +1,4 @@
-const { getMpsPattern, getWpsPattern, getWOPattern } = require('./pool');
+const { getMpsPattern, getWpsPattern, getWOPattern, getWODetail } = require('./pool');
 const mpsPatternHandler = async (request, h) => {
     let results = (await getMpsPattern()).map((item) => {
         return {
@@ -197,9 +197,39 @@ const woPatternHandler = async (request, h) => {
         },
     },).code(200);
 }
+const woDetailHandler = async (request, h) => {
+    // get line from path
+    let line = request.params.line;
+    // get type from query parameter
+    let type = request.query.type;
+    // get date from query parameter
+    let date = request.query.date;
+    // get data from database
+    let results = (await getWODetail(line, type, date))
+    let title = `WO Detail`;
+    if (line) {
+        title += ` Line ${line}`;
+    }
+    if (type) {
+        title += ` Type ${type}`;
+    }
+    if (date) {
+        title += ` Date ${date}`;
+    }
+
+    return h.response({
+        status: 'success',
+        data: {
+            //MPS Pattern <current month string><current year>
+            title: title,
+            items: results,
+        },
+    },).code(200);
+}
 module.exports = {
     mpsPatternHandler,
     wpsPatternHandler,
     woPatternHandler,
     mpsRawHandler,
+    woDetailHandler,
 }

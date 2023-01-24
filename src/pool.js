@@ -210,7 +210,7 @@ const getWODetail = async (line, type, date) => {
     let filteredResult = result.rows.filter(x => {
         if (date) {
             console.log(`${x.TGL_PROD} == ${new Date(date)} = ${x.TGL_PROD == new Date(date)}`);
-            return x.LINE == line && x.TGL_PROD == new Date(date)
+            return x.LINE == line && x.TGL_PROD.toISOString().split('T')[0] == new Date(date).toISOString().split('T')[0]
         }
         return x.LINE == line;
 

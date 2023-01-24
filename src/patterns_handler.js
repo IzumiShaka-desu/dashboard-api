@@ -45,7 +45,6 @@ const mpsPatternHandler = async (request, h) => {
         return {
             line: line,
             data: dataByType,
-            title: "MPS Pattern ",
         }
     });
 
@@ -121,7 +120,6 @@ const wpsPatternHandler = async (request, h) => {
         return {
             line: line,
             data: dataByType,
-            title: "MPS Pattern ",
         }
     });
 

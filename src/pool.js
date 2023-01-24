@@ -237,7 +237,7 @@ const getWODetail = async (line, type, date) => {
             obj.series = "N/A";
         }
         if (type) {
-            if (series.series != type) {
+            if (obj.series != type) {
                 return;
             }
         }

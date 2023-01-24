@@ -209,7 +209,7 @@ const getWODetail = async (line, type, date) => {
     result.rows
     let filteredResult = result.rows.filter(x => {
         if (date) {
-            return x.LINE == line && x.TGL_PROD == date
+            return x.LINE == line && x.TGL_PROD == new Date(date)
         }
         return x.LINE == line;
 

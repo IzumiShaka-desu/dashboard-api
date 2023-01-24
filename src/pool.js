@@ -193,5 +193,52 @@ const getWOPattern = async () => {
     console.log(results);
     return results;
 }
+const getWODetail = async (line, type, date) => {
+    let queryPn = `select * from [portal_ppc].[dbo].[part_number_series] `;
+    let part_num_series = await executeSQL(connection, queryPn, "object");
+    const query = `SELECT t$prto as rfq,t$prdt as tgl_prod,t$pdno as pdno,trim(t$mitm) as mitm,t$cwar as cwar, t$qrdr as qty,t$prcd as line, t$osta as status 
+    FROM baan.ttisfc001777 where (t$pdno like '%KAS%' OR t$pdno like '%KAB%')
+    and (t$osta = 1 OR t$osta = 5 OR t$osta = 7 OR t$osta = 10) and t$prdt between to_date('01-JAN-23','DD-MON-RR') - 7/24 and to_date('31-JAN-23','DD-MON-RR') - 7/24
+    order by t$pdno asc`;
+    var result;
+    result = await oracleConnection.execute(query, [], { resultSet: false, outFormat: oracledb.OUT_FORMAT_OBJECT });
+    // console.log(result.rows);
+    var obj;
 
-module.exports = { getMpsPattern, getWpsPattern, getWOPattern, initConnection };
+    let results = [];
+    result.rows
+    let filteredResult = result.rows.filter(x => x.LINE == line && x.TGL_PROD == date);
+    filteredResult.map(async (row) => {
+
+        obj = {
+            tanggal_wo: row.TGL_PROD,
+            qty: row.QTY,
+            line: row.LINE,
+            pdno: row.PDNO,
+            pn: row.MITM,
+            status: row.STATUS,
+            rfq: row.RFQ,
+        };
+        let part_num = row.MITM;
+        let series = part_num_series.find(x => x.pn == part_num);
+        // if series not same with type then return
+        if (series.series != type) {
+            return;
+        }
+        if (series) {
+            obj.series = series.series;
+        }
+        else {
+            obj.series = "N/A";
+        }
+        //  obj;
+        results.push(obj);
+        console.log(obj);
+        return;
+    });
+    console.log(results);
+    return results;
+}
+
+
+module.exports = { getMpsPattern, getWpsPattern, getWOPattern, getWODetail, initConnection };

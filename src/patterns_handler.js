@@ -1,4 +1,4 @@
-const { getMpsPattern, getWpsPattern } = require('./pool');
+const { getMpsPattern, getWpsPattern, getWoPattern } = require('./pool');
 const mpsPatternHandler = async (request, h) => {
     let results = (await getMpsPattern()).map((item) => {
         return {

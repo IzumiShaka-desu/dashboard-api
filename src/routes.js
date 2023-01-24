@@ -49,9 +49,10 @@ const routes = [
       }
     }
   },
+  // create route to get detail by line and can filter by type and date
   {
     method: 'GET',
-    path: '/patterns/wo/:line',
+    path: '/patterns/wo/{line}',
     handler: woDetailHandler,
     options: {
       cache: {

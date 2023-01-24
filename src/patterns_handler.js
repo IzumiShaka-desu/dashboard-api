@@ -1,4 +1,4 @@
-const { getMpsPattern, getWpsPattern, getWoPattern } = require('./pool');
+const { getMpsPattern, getWpsPattern, getWOPattern } = require('./pool');
 const mpsPatternHandler = async (request, h) => {
     let results = (await getMpsPattern()).map((item) => {
         return {
@@ -135,7 +135,7 @@ const wpsPatternHandler = async (request, h) => {
 
 }
 const woPatternHandler = async (request, h) => {
-    let results = (await getWoPattern()).map((item) => {
+    let results = (await getWOPattern()).map((item) => {
         return {
             tanggal_mps: item.tanggal_wo,
             line: item.line,

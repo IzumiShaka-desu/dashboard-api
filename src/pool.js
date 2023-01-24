@@ -190,4 +190,4 @@ const getWOPattern = async () => {
     return results;
 }
 
-module.exports = { getMpsPattern, getWpsPattern, initConnection };
+module.exports = { getMpsPattern, getWpsPattern, getWOPattern, initConnection };

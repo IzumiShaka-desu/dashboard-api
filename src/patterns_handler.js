@@ -141,6 +141,10 @@ const woPatternHandler = async (request, h) => {
             line: item.line,
             qty: item.qty,
             type: item.series,
+            pdno: item.pdno,
+            pn: item.pn,
+            status: item.status,
+            rfq: item.rfq,
         }
     });
     let lines = [...new Set(results.map((item) => item.line))].sort();

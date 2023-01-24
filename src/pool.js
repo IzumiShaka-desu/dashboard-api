@@ -209,6 +209,7 @@ const getWODetail = async (line, type, date) => {
     result.rows
     let filteredResult = result.rows.filter(x => {
         if (date) {
+            console.log(`${x.TGL_PROD} == ${new Date(date)} = ${x.TGL_PROD == new Date(date)}`);
             return x.LINE == line && x.TGL_PROD == new Date(date)
         }
         return x.LINE == line;
@@ -228,16 +229,17 @@ const getWODetail = async (line, type, date) => {
         let part_num = row.MITM;
         let series = part_num_series.find(x => x.pn == part_num);
         // if series not same with type then return
-        if (type) {
-            if (series.series != type) {
-                return;
-            }
-        }
+
         if (series) {
             obj.series = series.series;
         }
         else {
             obj.series = "N/A";
+        }
+        if (type) {
+            if (series.series != type) {
+                return;
+            }
         }
         //  obj;
         results.push(obj);

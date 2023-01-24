@@ -172,6 +172,10 @@ const getWOPattern = async () => {
             tanggal_wo: row.TGL_PROD,
             qty: row.QTY,
             line: row.LINE,
+            pdno: row.PDNO,
+            pn: row.MITM,
+            status: row.STATUS,
+            rfq: row.RFQ,
         };
         let part_num = row.MITM;
         let series = part_num_series.find(x => x.pn == part_num);

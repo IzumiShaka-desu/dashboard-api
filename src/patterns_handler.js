@@ -214,7 +214,11 @@ const woDetailHandler = async (request, h) => {
         title += ` Type ${type}`;
     }
     if (date) {
-        title += ` Date ${date}`;
+        // format tanggal wo to be more readable (ex: "2021-01-01" to "01 Januari 2021")
+        let dateString = new Date(date).toLocaleString('default', { day: '2-digit', month: 'long', year: 'numeric' });
+
+
+        title += ` Date ${dateString}`;
     }
 
     return h.response({
